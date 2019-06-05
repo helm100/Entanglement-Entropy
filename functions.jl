@@ -23,6 +23,7 @@ function BinDec(bin)
 end
 
 function MakeHam(jmat)
+    #hamiltonian is "PLUS \sum JSS"
     ham = spzeros(Float64,2^N, 2^N) #create empty sparse
     for n in 0:2^N-1 #going trhough all possible states n
         nbin=digits(n, base = 2, pad = N) #finding the binary corresponding to n (the state)
