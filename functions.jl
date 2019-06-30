@@ -22,11 +22,12 @@ function BinDec(bin)
     Int64(dec)
 end
 
-function MakeHam(jmat,N)
+function MakeHam(jmat,N,h)
     #hamiltonian is "PLUS \sum JSS"
     ham = spzeros(Float64,2^N, 2^N) #create empty sparse
     for n in 0:2^N-1 #going trhough all possible states n
         nbin=digits(n, base = 2, pad = N) #finding the binary corresponding to n (the state)
+        ham[n+1,n+1] += h*(2*sum(nbin)-N)
         for i in 1:N #i,j going through the elements of the J-matrices
             for j in i+1:N
                 zi=nbin[i] #the ith number of the binary number (0 or 1) 
