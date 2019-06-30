@@ -88,7 +88,7 @@ function Heisenberg_2D(N,J)
             jmatH[i,i+6,a]=jmatH[i+6,i,a]=J
         end
     end
-    Matrix(MakeHam(jmatH))
+    Matrix(MakeHam(jmatH,N))
 end
 
 function Ising_2D(N,J)
