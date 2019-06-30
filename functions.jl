@@ -22,7 +22,7 @@ function BinDec(bin)
     Int64(dec)
 end
 
-function MakeHam(jmat)
+function MakeHam(jmat,N)
     #hamiltonian is "PLUS \sum JSS"
     ham = spzeros(Float64,2^N, 2^N) #create empty sparse
     for n in 0:2^N-1 #going trhough all possible states n
@@ -74,4 +74,35 @@ function EntEntr(state,subsys) #determines the entanglement entropy
     end
     entropy
 end
+
+function Heisenberg_2D(N,J)
+    jmatH = zeros(Int8, N, N, 3)
+    for a in 1:3
+        for i in 1:Int(N/2-1)
+            jmatH[i,i+1,a]=jmatH[i+1,i,a]=J
+        end
+        for i in Int(N/2+1):(N-1)
+            jmatH[i,i+1,a]=jmatH[i+1,i,a]=J
+        end
+        for i in 1:Int(N/2)
+            jmatH[i,i+6,a]=jmatH[i+6,i,a]=J
+        end
+    end
+    Matrix(MakeHam(jmatH))
+end
+
+function Ising_2D(N,J)
+    jmat = zeros(Int8, N, N, 3);
+    for i in 1:Int(N/2-1)
+        jmat[i,i+1,3]=jmat[i+1,i,3]=J
+    end
+    for i in Int(N/2+1):(N-1)
+        jmat[i,i+1,3]=jmat[i+1,i,3]=J
+    end
+    for i in 1:Int(N/2)
+        jmat[i,i+Int(N/2),3]=jmat[i+Int(N/2),i,3]=J
+    end
+    jmat
+end
+
 ;
