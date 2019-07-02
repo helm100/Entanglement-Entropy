@@ -88,7 +88,7 @@ function FindGS(eigsys) #takes output from eigen() and returns the ground states
     evcs
 end
 
-function Heisenberg_2D(N,J) #outputs Heisenberg interaction matrices for N particles with interaction J
+function Heisenberg_2D(N,J,h) #outputs Heisenberg interaction matrices for N particles with interaction J
     jmatH = zeros(Int8, N, N, 3)
     for a in 1:3
         for i in 1:Int(N/2-1)
@@ -101,10 +101,10 @@ function Heisenberg_2D(N,J) #outputs Heisenberg interaction matrices for N parti
             jmatH[i,i+6,a]=jmatH[i+6,i,a]=J
         end
     end
-    Matrix(MakeHam(jmatH,N))
+    Matrix(MakeHam(jmatH,N,h))
 end
 
-function Ising_2D(N,J)#outputs Ising interaction matrices for N particles with interaction J
+function Ising_2D(N,J,h)#outputs Ising interaction matrices for N particles with interaction J
     jmat = zeros(Int8, N, N, 3);
     for i in 1:Int(N/2-1)
         jmat[i,i+1,3]=jmat[i+1,i,3]=J
