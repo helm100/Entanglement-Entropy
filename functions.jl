@@ -76,7 +76,18 @@ function EntEntr(state,subsys) #determines the entanglement entropy
     entropy
 end
 
-function Heisenberg_2D(N,J)
+function FindGS(eigsys) #takes output from eigen() and returns the ground states
+    min=minimum(eigsys.values)
+    gsts=findall(x->min-10^(-8)<x<min+10^(-8),eigsys.values)
+    degcy = length(gsts) #determines degeneracy of ground state
+    evcs=Array{Float64}(undef, 2^N,degcy)
+    for i in 1:degcy
+        evcs[:,i] = eigsys.vectors[:,gsts[i]]
+    end
+    evcs
+end
+
+function Heisenberg_2D(N,J) #outputs Heisenberg interaction matrices for N particles with interaction J
     jmatH = zeros(Int8, N, N, 3)
     for a in 1:3
         for i in 1:Int(N/2-1)
@@ -92,7 +103,7 @@ function Heisenberg_2D(N,J)
     Matrix(MakeHam(jmatH,N))
 end
 
-function Ising_2D(N,J)
+function Ising_2D(N,J)#outputs Ising interaction matrices for N particles with interaction J
     jmat = zeros(Int8, N, N, 3);
     for i in 1:Int(N/2-1)
         jmat[i,i+1,3]=jmat[i+1,i,3]=J
