@@ -77,10 +77,11 @@ function EntEntr(state,subsys) #determines the entanglement entropy
 end
 
 function FindGS(eigsys) #takes output from eigen() and returns the ground states
+    Nu=Int64(log(2,length(eigsys.values)))
     min=minimum(eigsys.values)
     gsts=findall(x->min-10^(-8)<x<min+10^(-8),eigsys.values)
     degcy = length(gsts) #determines degeneracy of ground state
-    evcs=Array{Float64}(undef, 2^N,degcy)
+    evcs=Array{Float64}(undef, 2^Nu,degcy)
     for i in 1:degcy
         evcs[:,i] = eigsys.vectors[:,gsts[i]]
     end
